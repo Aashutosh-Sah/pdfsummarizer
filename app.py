@@ -78,13 +78,17 @@ def handle_userinput(user_question):
     response = st.session_state.conversation.__call__({'question': user_question})
     st.session_state.chat_history = response['chat_history']
 
-    for i, message in enumerate(st.session_state.chat_history):
-        if i % 2 == 0:
-            st.write(user_template.replace(
-                "{{MSG}}", message.content), unsafe_allow_html=True)
-        else:
-            st.write(bot_template.replace(
-                "{{MSG}}", message.content), unsafe_allow_html=True)
+    # LangChain stores history as alternating items: [User1, Bot1, User2, Bot2]
+    # We group them into pairs of (User, Bot)
+    history_pairs = []
+    for idx in range(0, len(st.session_state.chat_history), 2):
+        if idx + 1 < len(st.session_state.chat_history):
+            history_pairs.append((st.session_state.chat_history[idx], st.session_state.chat_history[idx+1]))
+
+    # Now we loop through the pairs backwards (Newest QA pair at the top!)
+    for user_msg, bot_msg in reversed(history_pairs):
+        st.write(user_template.replace("{{MSG}}", user_msg.content), unsafe_allow_html=True)
+        st.write(bot_template.replace("{{MSG}}", bot_msg.content), unsafe_allow_html=True)
 
 
 def main():
