@@ -1,11 +1,11 @@
 streamlit
-pypdf2
-langchain
 python-dotenv
-faiss-cpu
-openai
-huggingface_hub
+PyPDF2
+langchain
 langchain-text-splitters
 langchain-community
+faiss-cpu
 langchain-classic
 langchain-groq
+sentence-transformers
+torch --index-url https://download.pytorch.org/whl/cpu
