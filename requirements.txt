@@ -6,3 +6,6 @@ faiss-cpu
 openai
 huggingface_hub
 langchain-text-splitters
+langchain-community
+langchain-classic
+langchain-groq
